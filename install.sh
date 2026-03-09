@@ -8,11 +8,11 @@ EMAIL="admin@$DOMAIN"
 echo "🔧 Установка сервера..."
 
 # Обновление пакетов
-sudo apt update && sudo apt upgrade -y
+apt update && apt upgrade -y
 
 # Установка системных зависимостей
 echo "📦 Установка системных пакетов..."
-sudo apt install -y python3 python3-pip python3-venv lsof certbot python3-certbot-nginx
+apt install -y python3 python3-pip python3-venv lsof certbot python3-certbot-nginx
 
 # Создание виртуального окружения
 echo "🐍 Создание виртуального окружения..."
@@ -32,14 +32,14 @@ fi
 
 # Убийство процесса на порту 1488
 echo "🛑 Остановка процесса на порту 1488..."
-PID=$(sudo lsof -t -i:1488 2>/dev/null)
+PID=$(lsof -t -i:1488 2>/dev/null)
 if [ -n "$PID" ]; then
     echo "📍 Найден процесс: PID $PID"
-    sudo kill -9 $PID 2>/dev/null
+    kill -9 $PID 2>/dev/null
     echo "⏳ Ожидание освобождения порта..."
     sleep 2
-    
-    while sudo lsof -i:1488 >/dev/null 2>&1; do
+
+    while lsof -i:1488 >/dev/null 2>&1; do
         echo "⏳ Порт ещё занят, ждём..."
         sleep 1
     done
@@ -62,10 +62,10 @@ if ! dig +short $DOMAIN | grep -q .; then
 fi
 
 # Остановка nginx если есть (для получения сертификата)
-sudo systemctl stop nginx 2>/dev/null || true
+systemctl stop nginx 2>/dev/null || true
 
 # Получение сертификата через standalone
-sudo certbot certonly --standalone \
+certbot certonly --standalone \
     -d $DOMAIN \
     --email $EMAIL \
     --agree-tos \
