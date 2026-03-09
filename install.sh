@@ -2,7 +2,7 @@
 
 # Telegram Complaint Server Installer
 
-DOMAIN="reps.mooo.com"
+DOMAIN="y-178.videocdn.cfd"
 EMAIL="admin@$DOMAIN"
 
 echo "🔧 Установка сервера..."
